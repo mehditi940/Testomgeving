@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { getUser } from "../../../business/authManager";
+import LoadingSpinner from "../LoadingSpinner";
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
   const [user, setUser] = useState(null);
@@ -23,7 +24,7 @@ const ProtectedRoute = ({ element, allowedRoles }) => {
     fetchUser();
   }, []);
 
-  if (loading) return <p>Loading...</p>; // Wacht tot de user is geladen
+  if (loading) return <div style={{ padding: 24 }}><LoadingSpinner /></div>; // Wacht tot de user is geladen
 
   if (!user || !allowedRoles.includes(user.role)) {
     return <Navigate to="/login" replace />; // Terug naar login als user niet mag

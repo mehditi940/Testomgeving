@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -7,23 +7,26 @@ import {
   useLocation,
 } from "react-router-dom";
 import Homepage from "./ui/pages/Homepage";
-import Login from "./ui/pages/Login";
-import ViewPage from "./ui/pages/chirurg/Viewpage";
+const Login = lazy(() => import("./ui/pages/Login"));
+const ViewPage = lazy(() => import("./ui/pages/chirurg/Viewpage"));
 import BurgerMenu from "./ui/components/headers/BurgerMenu";
 import DesktopHeader from "./ui/components/headers/DesktopHeader";
-import Dashboard from "./ui/pages/admin/Dashboard";
-import Rooms from "./ui/pages/admin/Rooms";
-import NewRoom from "./ui/pages/admin/NewRoom";
-import NewPatient from "./ui/pages/admin/NewPatient";
-import NewAccount from "./ui/pages/admin/NewAccount";
-import NewPassword from "./ui/pages/admin/NewPassword";
-import ChirurgDashboard from "./ui/pages/chirurg/Dashboard";
+const Dashboard = lazy(() => import("./ui/pages/admin/Dashboard"));
+const Rooms = lazy(() => import("./ui/pages/admin/Rooms"));
+const NewRoom = lazy(() => import("./ui/pages/admin/NewRoom"));
+const NewPatient = lazy(() => import("./ui/pages/admin/NewPatient"));
+const NewAccount = lazy(() => import("./ui/pages/admin/NewAccount"));
+const NewPassword = lazy(() => import("./ui/pages/admin/NewPassword"));
+const ChirurgDashboard = lazy(() => import("./ui/pages/chirurg/Dashboard"));
 import ProtectedRoute from "./ui/components/auth/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import { AnimatePresence } from "framer-motion";
 import Patients from "./ui/pages/admin/Patients";
 import Users from "./ui/pages/admin/Users";
+import LoadingSpinner from "./ui/components/LoadingSpinner";
+import NotFound from "./ui/pages/NotFound";
+import ErrorBoundary from "./ui/components/errors/ErrorBoundary";
 function App() {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
@@ -49,6 +52,7 @@ function App() {
     <>
       {headerShouldShow && (isMobile ? <BurgerMenu /> : <DesktopHeader />)}
 
+      <Suspense fallback={<div style={{ padding: 24 }}><LoadingSpinner /></div>}>
       <Routes>
         <Route path="/" element={<Homepage />}></Route>
         <Route path="/login" element={<Login />}></Route>
@@ -86,7 +90,9 @@ function App() {
         <Route path="/admin/nieuw-wachtwoord" element={<NewPassword />}></Route>
 
         <Route path="/chirurg/dashboard" element={<ChirurgDashboard />}></Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
     </>
   );
 }
@@ -96,7 +102,9 @@ const AppWithRouter = () => (
     <AuthProvider>
       <NotificationProvider>
         <Router>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </Router>
       </NotificationProvider>
     </AuthProvider>

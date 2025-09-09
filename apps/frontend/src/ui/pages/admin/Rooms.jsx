@@ -8,6 +8,11 @@ import Select from 'react-select';
 import { motion } from 'framer-motion'
 import { useNotification } from '../../../context/NotificationContext';
 import MessageAlert from '../../components/messages/MessageAlert';
+import Container from '../../components/ui/Container';
+import PageHeader from '../../components/ui/PageHeader';
+import Card from '../../components/ui/Card';
+import Button from '../../components/ui/Button';
+import EmptyState from '../../components/ui/EmptyState';
 
 
 const Rooms = () => {
@@ -52,30 +57,37 @@ const [selectedRoom, setSelectedRoom] = useState(null);
       transition={{ duration: 0.3 }}
     >
         <>
-        <div className='main-container'>
-            <h1>Rooms</h1>
-        <div className='optionsContainer'>
-        <Select
-                                options={roomOptions}
-                                value={selectedRoom ? roomOptions.find(opt => opt.value === selectedRoom.id) : null}
-                                onChange={(selectedOption) => setSelectedRoom(selectedOption.data)}
-                                placeholder="Zoek een room..."
-                                isSearchable
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                            />
-
-                <span>Of</span>
-        <button className='primaryBtn' onClick={handleToNieuwRoom}>Nieuwe room maken</button>
-        </div>
-    <SelectedRoom room={selectedRoom} onRoomDeleted={handleRoomDeleted} />
-        <BackBtn/>
-        </div>
-                    {notification && (
-                <MessageAlert
-                    message={notification.message}
-                    type={notification.type}/>
+        <Container>
+          <BackBtn/>
+          <PageHeader
+            title="Rooms"
+            subtitle="Beheer en zoek rooms"
+            actions={<Button onClick={handleToNieuwRoom}>Nieuwe room</Button>}
+          />
+          <Card title="Zoeken">
+            <div style={{ display: 'grid', gap: 12 }}>
+              <Select
+                options={roomOptions}
+                value={selectedRoom ? roomOptions.find(opt => opt.value === selectedRoom.id) : null}
+                onChange={(selectedOption) => setSelectedRoom(selectedOption.data)}
+                placeholder="Zoek een room..."
+                isSearchable
+                className="react-select-container"
+                classNamePrefix="react-select"
+              />
+            </div>
+          </Card>
+          <div style={{ marginTop: 16 }}>
+            {selectedRoom ? (
+              <SelectedRoom room={selectedRoom} onRoomDeleted={handleRoomDeleted} />
+            ) : (
+              <EmptyState description="Kies een room in de zoeklijst of maak een nieuwe room aan." />
             )}
+          </div>
+        </Container>
+          {notification && (
+            <MessageAlert message={notification.message} type={notification.type} />
+          )}
         </>
                 </motion.div>
 

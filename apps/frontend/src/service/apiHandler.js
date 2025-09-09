@@ -469,11 +469,11 @@ class APIHandler {
      *   "message": "Room created successfully"
      * }
      */
-    create_room: async function (name, files, patient = null, users = []) {
+    create_room: async function (name, files, patient = null, users = [], type = "patient") {
       const apiInstance = APIHandler.getInstance();
 
       // Maak een object zonder users als lege array en zonder patient als null
-      const bodyData = { name };
+      const bodyData = { name, type };
       if (patient) bodyData.patient = patient;
       if (users.length > 0) bodyData.users = users; // array, niet string!
 

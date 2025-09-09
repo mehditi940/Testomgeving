@@ -40,6 +40,7 @@ const ViewPage = () => {
   const socketHandler = useSocket(roomId, token);
 
   const [localUrl, setLocalUrl] = useState(null);
+  const [fileExt, setFileExt] = useState(null);
 
   useEffect(() => {
     const fetchAndCreateUrl = async () => {
@@ -52,6 +53,8 @@ const ViewPage = () => {
       }
 
       const fileUrl = `${import.meta.env.VITE_API_URL}/static/${model.path}`;
+      const ext = (model.path.split('.').pop() || '').toLowerCase();
+      setFileExt(ext);
 
       try {
         const url = await downloadFileAsBlobURL(fileUrl, {
@@ -159,6 +162,7 @@ const ViewPage = () => {
           <Suspense fallback={<LoadingSpinner />}>
             <ModelViewer
               modelPath={localUrl}
+              fileExt={fileExt}
               partSettings={partSettings}
               onPartsLoaded={onPartsLoaded}
               drawMode={drawMode}

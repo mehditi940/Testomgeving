@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../styles/components/messages/MessageAlert.css'
-const MessageAlert = ({ message,  onClose }) => {
-//   const getColor = () => {
-//     switch (type) {
-//       case 'success':
-//         return 'bg-green-100 text-green-800 border-green-300';
-//       case 'error':
-//         return 'bg-red-100 text-red-800 border-red-300';
-//       case 'warning':
-//         return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-//       default:
-//         return 'bg-blue-100 text-blue-800 border-blue-300';
-//     }
-//   };
 
-  if (!message) return null; // geen bericht? Niks renderen
+const MessageAlert = ({ message, type = 'info', onClose, duration = 5000 }) => {
+  useEffect(() => {
+    if (!duration || !onClose) return;
+    const t = setTimeout(onClose, duration);
+    return () => clearTimeout(t);
+  }, [duration, onClose]);
+
+  if (!message) return null;
 
   return (
-    <div className='message-alert-container'>	
-
-      <span>{message}</span>
+    <div
+      className={`message-alert-container message-${type}`}
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <div className="message-content">
+        <span className="message-icon">
+          {type === 'success' && <i className="bi bi-check-circle-fill" aria-hidden="true"></i>}
+          {type === 'error' && <i className="bi bi-exclamation-octagon-fill" aria-hidden="true"></i>}
+          {type === 'warning' && <i className="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>}
+          {type === 'info' && <i className="bi bi-info-circle-fill" aria-hidden="true"></i>}
+        </span>
+        <span className="message-text">{message}</span>
+      </div>
       {onClose && (
-        <button onClick={onClose}>
+        <button className="message-close" onClick={onClose} aria-label="Sluiten">
+          <i className="bi bi-x"></i>
         </button>
       )}
-      
     </div>
   );
 };

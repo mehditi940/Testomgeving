@@ -9,5 +9,25 @@ export default defineConfig({
     allowedHosts: [
       'arviewer-demo-123.westeurope.azurecontainer.io'
     ]
+  },
+  server: {
+    host: true,
+    cors: true,
+    port: 5173,
+  },
+  build: {
+    sourcemap: true,
+    chunkSizeWarningLimit: 2048,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          three: ['three', '@react-three/fiber', '@react-three/drei']
+        }
+      }
+    }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'three', '@react-three/fiber', '@react-three/drei']
   }
 })

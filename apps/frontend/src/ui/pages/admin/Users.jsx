@@ -10,6 +10,11 @@ import { handleGetPatients } from '../../../business/controller/PatientControlle
 import SelectedUser from '../../components/users/admin/SelectedUser';
 import { handleGetUsers } from '../../../business/controller/userController';
 import { all } from 'three/src/nodes/TSL.js';
+import Container from '../../components/ui/Container';
+import PageHeader from '../../components/ui/PageHeader';
+import Card from '../../components/ui/Card';
+import Button from '../../components/ui/Button';
+import EmptyState from '../../components/ui/EmptyState';
 
 
 const Users = () => {
@@ -55,34 +60,37 @@ const [selectedUser, setSelectedUser] = useState(null);
       transition={{ duration: 0.3 }}
     >
         <>
-        <div className='main-container'>
-            <h1>Gebruikers</h1>
-        <div className='optionsContainer'>
-        <Select
-                                options={roomOptions}
-                                value={selectedUser ? roomOptions.find(opt => opt.value === selectedUser.id) : null}
-                                onChange={(selectedOption) => setSelectedUser(selectedOption.data)}
-                                placeholder="Zoek een gebruiker..."
-                                isSearchable
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                            />
-
-                <span>Of</span>
-        <button className='primaryBtn' onClick={handleCreatePatient}>Nieuwe account aanmaken</button>
-        </div>
-    <SelectedUser user={selectedUser} onPatientDelete={handleUserDeleted} />
-        <BackBtn/>
-        </div>
-                    {notification && (
-                <MessageAlert
-                    message={notification.message}
-                    type={notification.type}/>
+        <Container>
+          <BackBtn/>
+          <PageHeader
+            title="Gebruikers"
+            subtitle="Beheer alle gebruikers"
+            actions={<Button onClick={handleCreatePatient}>Nieuwe account</Button>}
+          />
+          <Card title="Zoeken">
+            <Select
+              options={roomOptions}
+              value={selectedUser ? roomOptions.find(opt => opt.value === selectedUser.id) : null}
+              onChange={(selectedOption) => setSelectedUser(selectedOption.data)}
+              placeholder="Zoek een gebruiker..."
+              isSearchable
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </Card>
+          <div style={{ marginTop: 16 }}>
+            {selectedUser ? (
+              <SelectedUser user={selectedUser} onPatientDelete={handleUserDeleted} />
+            ) : (
+              <EmptyState description="Kies een gebruiker in de zoeklijst of maak een nieuwe account aan." />
             )}
+          </div>
+        </Container>
+          {notification && (
+            <MessageAlert message={notification.message} type={notification.type} />
+          )}
         </>
-        {notification && (      <MessageAlert
-                    message={notification.message}
-                    type={notification.type}/>)}
+        {notification && (<MessageAlert message={notification.message} type={notification.type}/>)}
             
                 </motion.div>
 

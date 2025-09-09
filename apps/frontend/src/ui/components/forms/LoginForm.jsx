@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/components/forms/LoginForm.css';
+import Input from '../../components/ui/Input';
+import Button from '../../components/ui/Button';
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -102,61 +104,42 @@ const LoginForm = () => {
 
   return (
     <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>E-mailadres</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            onBlur={() => handleBlur('email')}
-            required
-            placeholder="Voer je e-mailadres in"
-            className={touched.email && errors.email ? 'input-error' : ''}
-            autoComplete="username"
-          />
-          {touched.email && errors.email && (
-            <span className="error-message">{errors.email}</span>
-          )}
-        </div>
+      <form className="login-form" onSubmit={handleSubmit} noValidate>
+        <Input
+          label="E-mailadres"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          onBlur={() => handleBlur('email')}
+          required
+          placeholder="Voer je e-mailadres in"
+          error={touched.email ? errors.email : ''}
+          autoComplete="username"
+        />
 
-        <div className="form-group">
-          <label>Wachtwoord</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            onBlur={() => handleBlur('password')}
-            required
-            placeholder="Voer je wachtwoord in"
-            className={touched.password && errors.password ? 'input-error' : ''}
-            autoComplete="current-password"
-          />
-          {touched.password && errors.password && (
-            <span className="error-message">{errors.password}</span>
-          )}
-        </div>
+        <Input
+          label="Wachtwoord"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          onBlur={() => handleBlur('password')}
+          required
+          placeholder="Voer je wachtwoord in"
+          error={touched.password ? errors.password : ''}
+          autoComplete="current-password"
+        />
 
         {errors.general && (
-          <div className="error-message general-error">
+          <div className="error-message general-error" role="alert">
             <p>{errors.general}</p>
           </div>
         )}
 
-        <button 
-          type="submit" 
-          className="login-button"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>
-              <span className="spinner"></span>
-              Inloggen...
-            </>
-          ) : 'Inloggen'}
-        </button>
+        <Button type="submit" variant="primary" size="md" full disabled={isSubmitting}>
+          {isSubmitting ? 'Inloggen…' : 'Inloggen'}
+        </Button>
       </form>
     </div>
   );

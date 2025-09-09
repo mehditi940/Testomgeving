@@ -1,0 +1,7 @@
+.ui-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-md); text-align: left; }
+.ui-card__header { display: flex; justify-content: space-between; align-items: center; padding: 16px 16px 0; }
+.ui-card__title { margin: 0; font-size: var(--text-xl); }
+.ui-card__subtitle { margin: 4px 0 0; color: var(--color-muted); font-size: var(--text-sm); }
+.ui-card__body { padding: 16px; }
+.ui-card__actions { display: flex; gap: 8px; }
+

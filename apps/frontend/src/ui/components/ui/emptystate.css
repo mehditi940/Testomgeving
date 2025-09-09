@@ -1,0 +1,5 @@
+.ui-emptystate { padding: 32px; text-align: center; color: var(--color-muted); border: 1px dashed var(--color-border); border-radius: var(--radius-md); background: #fff; }
+.ui-emptystate__icon { font-size: 2rem; color: var(--color-brand); display: inline-block; margin-bottom: 8px; }
+.ui-emptystate__title { margin: 8px 0 4px; color: var(--color-text); }
+.ui-emptystate__desc { margin: 0 0 12px; }
+

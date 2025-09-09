@@ -1,0 +1,8 @@
+.ui-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.ui-label { font-size: var(--text-sm); color: var(--color-muted); text-align: left; }
+.ui-input { padding: 10px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: #fff; font-size: var(--text-md); transition: box-shadow .2s ease, border-color .2s ease; }
+.ui-input:focus { outline: none; border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(11,112,233,0.15); }
+.ui-input.is-error { border-color: var(--color-danger); }
+.ui-error { color: var(--color-danger); font-size: var(--text-sm); text-align: left; }
+.ui-hint { color: var(--color-muted); font-size: var(--text-sm); text-align: left; }
+

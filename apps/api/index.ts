@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
-import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import authRouter from "./routes/auth/authRouter";
 import { swaggerSpecs } from "./utils/swaggerJs";
@@ -66,7 +65,7 @@ app.use(
 );
 
 // Passport middleware
-app.use(bodyParser.json());
+app.use(express.json());
 passport.use(LocalLoginStrategy);
 passport.use(PassportJwtStrategy);
 passport.use(AuthBearerStrategy);

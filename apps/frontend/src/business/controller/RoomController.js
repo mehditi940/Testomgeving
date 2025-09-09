@@ -2,9 +2,9 @@
 
 import dummyAPI from "../../service/apiHandler";
 
-export async function handleCreateRoom(name, files, patient = null, users = []) {
+export async function handleCreateRoom(name, files, patient = null, users = [], type = "patient") {
   try {
-    const response = await dummyAPI.room.create_room(name, files, patient, users);
+    const response = await dummyAPI.room.create_room(name, files, patient, users, type);
 
     if (!response) {
       throw new Error("Aanmaken kamer mislukt");
